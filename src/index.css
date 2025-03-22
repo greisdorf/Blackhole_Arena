@@ -1,0 +1,705 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  overflow: hidden;
+  background-color: #000;
+  color: #fff;
+}
+
+canvas {
+  display: block;
+}
+
+button {
+  cursor: pointer;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #4b70e2;
+  color: white;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #3a5bbf;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* App container styling */
+.app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* Menu styling */
+.main-menu, .settings-menu, .store-menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.menu-container {
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 8px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+}
+
+.menu-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 2rem 0;
+}
+
+.menu-buttons button {
+  padding: 16px 20px;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.footer {
+  margin-top: 2rem;
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+.connection-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.status-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.status-dot.connected {
+  background-color: #00cc00; /* Green */
+}
+
+.status-dot.disconnected {
+  background-color: #ff9900; /* Orange/Yellow */
+}
+
+.status-online {
+  color: #00cc00; /* Green */
+}
+
+.status-offline {
+  color: #ffcc00; /* Yellow */
+}
+
+/* Connection error styling */
+.connection-error {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background-color: rgba(255, 0, 0, 0.7);
+  padding: 1rem;
+  border-radius: 4px;
+  z-index: 10;
+}
+
+/* Settings menu specific styling */
+.settings-group {
+  margin: 1.5rem 0;
+  text-align: left;
+}
+
+.setting {
+  margin: 0.8rem 0;
+  display: flex;
+  align-items: center;
+}
+
+.setting label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.setting select {
+  margin-left: auto;
+  padding: 0.5rem;
+  background-color: #333;
+  color: white;
+  border: 1px solid #555;
+  border-radius: 4px;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.button-group button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.button-group button:first-child {
+  background-color: #444;
+  color: white;
+}
+
+.button-group button:first-child:hover {
+  background-color: #555;
+}
+
+.button-group button:last-child {
+  background-color: #c93232;
+  color: white;
+}
+
+.button-group button:last-child:hover {
+  background-color: #e03c3c;
+}
+
+.button-group button:active {
+  transform: scale(0.98);
+}
+
+/* Store menu specific styling */
+.store-items {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+  max-height: 60vh;
+  overflow-y: auto;
+  padding: 0.5rem;
+}
+
+.store-item {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(50, 50, 50, 0.7);
+  padding: 1rem;
+  border-radius: 6px;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.store-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.item-image {
+  height: 80px;
+  background-color: #444;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  margin-bottom: 0.8rem;
+  overflow: hidden;
+}
+
+.item-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.image-placeholder {
+  font-size: 2rem;
+  color: #ccc;
+}
+
+.item-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.item-details h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.item-details p {
+  font-size: 0.8rem;
+  margin-bottom: 0.8rem;
+  flex: 1;
+}
+
+.item-price {
+  font-weight: bold;
+  margin: 0.5rem 0;
+  color: #4b70e2;
+}
+
+/* Media query for non-mobile screens */
+@media (min-width: 768px) {
+  .store-items {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+  
+  .menu-container {
+    max-width: 800px;
+  }
+  
+  /* Wider container specifically for store */
+  .store-menu .menu-container {
+    max-width: 1000px;
+  }
+  
+  .item-image {
+    height: 120px;
+  }
+}
+
+/* For even larger screens */
+@media (min-width: 1200px) {
+  .store-menu .menu-container {
+    max-width: 1200px;
+  }
+  
+  .store-items {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+/* Continue with existing styles */
+.error-message {
+  background-color: rgba(220, 53, 69, 0.2);
+  border: 1px solid rgba(220, 53, 69, 0.5);
+  color: #fff;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.auth-section {
+  background-color: rgba(50, 50, 50, 0.5);
+  padding: 15px;
+  margin: 10px 0 20px;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.auth-logged-in {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+  padding: 8px;
+}
+
+.logged-in-indicator {
+  background-color: #e0f2e9;
+  color: #38a169;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.login-button {
+  margin-top: 10px;
+}
+
+.back-button {
+  margin-top: 1rem;
+}
+
+.loading, .error {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 24px;
+}
+
+/* Game HUD styles */
+.game-hud {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.game-stats {
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  display: inline-block;
+}
+
+.fps-counter {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-family: monospace;
+}
+
+/* Sound warning message */
+.sound-warning {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  background-color: rgba(255, 200, 0, 0.8);
+  color: #000;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  z-index: 100;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.8;
+  }
+}
+
+/* Game controls styling */
+.game-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 10px;
+  z-index: 10;
+  pointer-events: auto;
+}
+
+.pause-button, .quit-button {
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.pause-button:hover, .quit-button:hover {
+  background-color: rgba(50, 50, 50, 0.8);
+}
+
+.pause-button:active, .quit-button:active {
+  transform: scale(0.95);
+}
+
+.quit-button {
+  background-color: rgba(180, 30, 30, 0.7);
+}
+
+.quit-button:hover {
+  background-color: rgba(220, 40, 40, 0.8);
+}
+
+/* Quit confirmation dialog */
+.menu-container p {
+  margin: 20px 0;
+  color: #eee;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* Pause menu styling */
+.pause-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.menu-container {
+  background-color: rgba(30, 30, 30, 0.9);
+  border-radius: 8px;
+  padding: 30px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.menu-container h2 {
+  color: #ffffff;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.menu-container button {
+  margin: 5px;
+  padding: 20px 20px;
+  background-color: #4b70e2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.menu-container button:hover {
+  background-color: #5a80f0;
+}
+
+.menu-container button:active {
+  transform: scale(0.98);
+}
+
+.menu-container.quit-dialog {
+  border: 2px solid rgba(200, 50, 50, 0.4);
+}
+
+.menu-container.quit-dialog h2 {
+  color: #ff6b6b;
+}
+
+/* Modal styles for TipSuccessModal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-container {
+  background-color: #1a1a2e;
+  border-radius: 8px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+  padding: 30px;
+  max-width: 500px;
+  width: 90%;
+  color: #fff;
+  text-align: center;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.modal-container h2 {
+  color: #4b70e2;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.modal-container .success-message,
+.modal-container .error-message,
+.modal-container .info-message,
+.modal-container .loading-message {
+  margin: 20px 0;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.modal-container .success-message {
+  background-color: rgba(40, 167, 69, 0.2);
+  border: 1px solid #28a745;
+}
+
+.modal-container .error-message {
+  background-color: rgba(220, 53, 69, 0.2);
+  border: 1px solid #dc3545;
+}
+
+.modal-container .info-message {
+  background-color: rgba(75, 112, 226, 0.2);
+  border: 1px solid #4b70e2;
+}
+
+.modal-container .loading-message {
+  background-color: rgba(255, 193, 7, 0.2);
+  border: 1px solid #ffc107;
+}
+
+.modal-container p {
+  margin: 10px 0;
+  line-height: 1.5;
+}
+
+.modal-container .close-button {
+  margin-top: 20px;
+  padding: 10px 25px;
+  background-color: #4b70e2;
+  transition: all 0.3s ease;
+}
+
+.modal-container .close-button:hover {
+  background-color: #3a5bbf;
+  transform: translateY(-2px);
+}
+
+.modal-container .close-button:active {
+  transform: translateY(0);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Purchase Success styles */
+.purchase-success {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+}
+
+.purchase-container {
+  background-color: rgba(50, 50, 50, 0.9);
+  padding: 2.5rem;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 1001;
+}
+
+.purchase-success .loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  font-size: 1.5rem;
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(75, 112, 226, 0.3);
+  border-radius: 50%;
+  border-top-color: #4b70e2;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.purchase-container h2 {
+  color: #4b70e2;
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+}
+
+.success-message {
+  animation: fadeIn 0.5s ease-in;
+}
+
+.purchased-item {
+  background-color: rgba(75, 112, 226, 0.1);
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(75, 112, 226, 0.2);
+}
+
+.purchased-item .item-image {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin: 0 auto 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.purchased-item h3 {
+  color: #4b70e2;
+  margin-bottom: 0.75rem;
+  font-size: 1.25rem;
+}
+
+.purchased-item p {
+  color: #ccc;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+} 

@@ -1,0 +1,40 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+
+	1.	Tech Stack:
+	•	Backend: Use Node.js.
+	•	Use three.js. to make it 3d.
+	•	Physics: Use Cannon.js - only include this if the user asks for rigid body physics, collision detection, or other physics-based mechanics.
+	•	Payment: Use Oncade for the payment SDK.
+	2.	Front-End:
+	•	Use React for the UI.
+	•	Include a build step, such as Webpack, to bundle the files.
+	* we're going to set OG tags so the game links appear better in social media.
+	* sharing links will also include affiliate codes so we can reward the referrer.
+  * Major features should have their own code files and folders.  The code should be layed out reasonable so a developer could help improve the game.
+	3.	Security:
+	•	Always store secrets in a .env file.
+	* we can't trust the clients, they can be hacked, process critical data on the server
+	* authentication and authorization should always be validated server-side before performing critical actions.
+	* the server should rate limiting to prevent abuse of server APIs (e.g., preventing excessive requests for validation endpoints).
+	4.	Multiplayer Communication:
+	•	Use WebSockets for real-time, low-latency communication between the server and client.
+	•	Avoid sending JSON objects or strings over WebRTC; consider using binary formats for efficient data packing.
+	•	Delta Compression (only send changes (e.g., position, velocity, animation state).
+	•	Entity Interpolation Client side (Smooth updates, low CPU usage).
+	•	Binary Data Instead of JSON (Bit-Packing Instead of JSON, ArrayBuffer and TypedArrays).
+	•	Adaptive Update Rates (Less work on CPU).
+	5.	Cross-Platform Support:
+	•	Ensure the games function correctly on both web and mobile platforms, accounting for smaller form factors.
+	* this includes menus, and controls
+	* ask the user if we should add gamepad support.
+
+	* Games in general need a main menu, a store page, a tip the dev button and a settings page.  Games should have a menu going into a game, a pause menu and a post game menu while returning to the main menu.  Uses may ask for different UI flows for different types of games.
+
+When your developer is asking for specific fixes or changes, only make those changes.  You may suggest other changes you notice but please focus on the fixes the user is asking you for.  Extra refactoring or extranious changes are very bad
+Before making changes, search the code base for existing solutions or coding patterns to follow
+
+You may be working with someone who might not be an experienced developer.  Offer to explain your changes and ask them about their experience level making games.

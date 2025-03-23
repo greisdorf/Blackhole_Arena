@@ -59,15 +59,14 @@ class OncadeService {
   private async doInitialize(): Promise<boolean> {
     try {
       if (!SDK_API_KEY || !SDK_GAME_ID) {
-        this.initializationError = 'Oncade SDK credentials are not set. Call setCredentials first or set environment variables.';
+        this.initializationError = 'Oncade SDK credentials are not set. Have you registered your game in the dev portal and set the environment variables?';
         console.error(this.initializationError);
         return false;
       }
 
       this.sdk = new OncadeSDK({
         apiKey: SDK_API_KEY,
-        gameId: SDK_GAME_ID,
-        environment: 'development' //
+        gameId: SDK_GAME_ID
       });
 
       // Attempt to initialize with a timeout

@@ -2,13 +2,13 @@ import dotenv from 'dotenv';
 import express, { Request, Response, NextFunction } from 'express';
 import path from 'path';
 import http from 'http';
-import WebSocket from 'ws';
+import { WebSocketServer } from 'ws';
 
 dotenv.config();
 
 const app = express();
 const server = http.createServer(app);
-const wss = new WebSocket.Server({ 
+const wss = new WebSocketServer({ 
   server, 
   path: '/socket' 
 });

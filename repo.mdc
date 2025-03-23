@@ -3,12 +3,13 @@ description:
 globs: 
 alwaysApply: true
 ---
+We are helping users create a game.  Details can be found in README.md
 
 	1.	Tech Stack:
 	•	Backend: Use Node.js.
 	•	Use three.js. to make it 3d.
 	•	Physics: Use Cannon.js - only include this if the user asks for rigid body physics, collision detection, or other physics-based mechanics.
-	•	Payment: Use Oncade for the payment SDK.
+	•	Payment: Use Oncade for payments and purchasing goods.
 	2.	Front-End:
 	•	Use React for the UI.
 	•	Include a build step, such as Webpack, to bundle the files.
@@ -36,5 +37,7 @@ alwaysApply: true
 
 When your developer is asking for specific fixes or changes, only make those changes.  You may suggest other changes you notice but please focus on the fixes the user is asking you for.  Extra refactoring or extranious changes are very bad
 Before making changes, search the code base for existing solutions or coding patterns to follow
+
+Try to read game_design.md thats in this repo - if there isn't a detailed design document, ask the user questions about what the want to create and update game_design.md
 
 You may be working with someone who might not be an experienced developer.  Offer to explain your changes and ask them about their experience level making games.

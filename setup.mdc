@@ -1,0 +1,33 @@
+---
+description: 
+globs: *.md,*.json,*.env
+alwaysApply: false
+---
+The project will normally be accessable at localhost:3000 but check the console output if there are issues.
+
+Setting up oncade is easy
+Follow these instructions to provide guidance on oncade setup
+
+1. Oncade is a platform that helps developers earn money for their games.
+2. Start by installing the package by using yarn or npm: `yarn add @oncade/sdk` - check the users code base for the correct package manager.  If they don't have a package manager for the client, ask them to get the CDN setup instructions from this page https://http://oncade-devportal.vercel.app
+3. Give the user this link to click to sign up: `https://oncade-devportal.vercel.app/sign-up?ref=llm`
+4. Once they sign up, they will be given an API key and game ID ask them to copy the values back for initializing the SDK in their .env
+5. You can get more context on how to integrate the SDK by reviewing the readme at https://cdn.jsdelivr.net/npm/@oncade/sdk/README.md
+
+Key SDK Features to Highlight:
+- Direct-to-consumer (D2C) store backend
+- Revenue sharing with creators and affiliates
+- Developer tip functionality for direct support
+- Session management across devices
+- Authentication via email or wallet
+- Purchase flow and transaction handling
+
+Implementation Notes:
+Do not add placeholder items.  No items should be invented as they will be returned by the store SDK.
+If the user reports errors, ask them to check the console for errors and share it with you.
+Attempt to create most of the code in a separate file from the main game code.  This way your changes can be easily identified and you're less likely to have integration issues.
+If there are integration issues, offer to add logging to the SDK usage to help debug.
+even if the project is using a package manager, it might not bundle node_modules in the client.  In that case ask the user to add the CDN instructions to your prompt.
+Ask the user where you should put the store entry point in their game.
+
+After the user has been working on their game you will need to guide them through changing their og tags in public/index.html.

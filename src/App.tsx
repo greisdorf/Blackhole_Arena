@@ -29,6 +29,7 @@ const App: React.FC = () => {
   // Oncade SDK status
   const [sdkInitialized, setSdkInitialized] = useState<boolean>(false);
   const [sdkError, setSdkError] = useState<string | null>(null);
+  const [isInitializing, setIsInitializing] = useState<boolean>(true);
 
   // Tip success modal state
   const [showTipSuccessModal, setShowTipSuccessModal] = useState<boolean>(false);
@@ -62,8 +63,11 @@ const App: React.FC = () => {
 
   // Initialize Oncade SDK
   useEffect(() => {
+    let isMounted = true;
+
     const initOncadeSDK = async () => {
       try {
+        setIsInitializing(true);
         console.log('Initializing Oncade SDK...');
         const oncadeService = OncadeService.getInstance();
         
@@ -72,6 +76,8 @@ const App: React.FC = () => {
         // oncadeService.setCredentials('your-api-key', 'your-game-id');
         
         const success = await oncadeService.initialize();
+        if (!isMounted) return;
+
         if (success) {
           console.log('Oncade SDK initialized successfully');
           setSdkInitialized(true);
@@ -83,13 +89,23 @@ const App: React.FC = () => {
           setIsConnected(false);
         }
       } catch (error) {
+        if (!isMounted) return;
+        
         console.error('Error initializing Oncade SDK:', error);
-        setSdkError('Error initializing Oncade SDK.');
+        setSdkError('Error initializing Oncade SDK. Please try refreshing the page.');
         setIsConnected(false);
+      } finally {
+        if (isMounted) {
+          setIsInitializing(false);
+        }
       }
     };
 
     initOncadeSDK();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   // Initialize SoundManager
@@ -157,6 +173,16 @@ const App: React.FC = () => {
 
   // Render the appropriate screen
   const renderScreen = (): JSX.Element => {
+    if (isInitializing) {
+      return (
+        <div className="loading-screen">
+          <div className="loading-spinner"></div>
+          <p>Initializing game...</p>
+        </div>
+      );
+    }
+
+
     switch (currentScreen) {
       case 'game':
         return <Game onExit={() => navigateTo('mainMenu')} settings={gameSettings} />;

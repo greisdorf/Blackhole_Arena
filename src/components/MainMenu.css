@@ -20,6 +20,10 @@
 }
 
 .menu-buttons button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
   padding: 12px 24px;
   font-size: 1.2rem;
   border-radius: 8px;
@@ -42,4 +46,55 @@
 
 .button-disabled:hover {
   opacity: 0.5;
+}
+
+.button-icon {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.2s ease;
+}
+
+.menu-buttons button:hover:not(:disabled) .button-icon {
+  transform: scale(1.1);
+}
+
+.connection-status.error {
+  margin-top: 20px;
+  color: #ff4444;
+}
+
+.footer {
+  margin-top: 40px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.connection-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.status-dot.connected {
+  background-color: #4CAF50;
+}
+
+.status-dot.disconnected {
+  background-color: #ff4444;
+}
+
+.status-online {
+  color: #4CAF50;
+}
+
+.status-offline {
+  color: #ff4444;
 } 

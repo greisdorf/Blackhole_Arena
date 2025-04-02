@@ -98,20 +98,26 @@ const Game: React.FC<GameProps> = ({ onExit, settings }) => {
 
     init();
 
-    // Clean up Three.js scene and WebSocket connection
+    // Cleanup function
     return () => {
-      // Stop sounds when leaving the game scene
-      const soundManager = SoundManager.getInstance();
-      soundManager.stop('background', { fadeOut: 1 });
-      
-      if (sceneManagerRef.current) {
-        sceneManagerRef.current.dispose();
-        sceneManagerRef.current = null;
-      }
-      
+      // Clean up WebSocket connection
       if (socketConnection) {
         socketConnection.close();
+        setSocket(null);
       }
+
+      // Clean up scene manager
+      if (sceneManager) {
+        sceneManager.dispose();
+        sceneManagerRef.current = null;
+      }
+
+      // Stop all sounds
+      const soundManager = SoundManager.getInstance();
+      soundManager.stop('background', { fadeOut: 0.5 });
+      soundManager.stop('click');
+      soundManager.stop('levelUp');
+      soundManager.stop('gameover');
     };
   }, [settings]);
   

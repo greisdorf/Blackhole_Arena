@@ -378,38 +378,33 @@ class SoundManager {
   }
 
   // Stop a sound
-  public stop(id: string, options: { fadeOut?: number } = {}): void {
+  public stop(id: string, options: SoundOptions = {}): void {
     const sound = this.sounds.get(id);
-    if (!sound || !sound.isPlaying) return;
-    
+    if (!sound) return;
+
+    // Handle fade out if specified
     if (options.fadeOut && options.fadeOut > 0 && sound.gain && this.audioContext) {
-      // Fade out
-      const currentTime = this.audioContext.currentTime;
-      sound.gain.gain.linearRampToValueAtTime(0, currentTime + options.fadeOut);
+      const startTime = this.audioContext.currentTime;
+      sound.gain.gain.setValueAtTime(sound.gain.gain.value, startTime);
+      sound.gain.gain.linearRampToValueAtTime(0, startTime + options.fadeOut);
       
-      // Actually stop the sound after fade out
+      // Clean up after fade out
       setTimeout(() => {
         sound.audio.pause();
         sound.audio.currentTime = 0;
         sound.isPlaying = false;
         this.cleanupAudioNodes(sound);
-        
-        // Trigger event
-        this.triggerEvent('stop', { id, isMusic: sound.isMusic });
       }, options.fadeOut * 1000);
     } else {
-      // Stop immediately
+      // Immediate stop
       sound.audio.pause();
       sound.audio.currentTime = 0;
       sound.isPlaying = false;
       this.cleanupAudioNodes(sound);
-      
-      // Trigger event
-      this.triggerEvent('stop', { id, isMusic: sound.isMusic });
     }
-    
-    // If stopping current music, clear reference
-    if (sound.isMusic && this.currentMusic && this.currentMusic.id === id) {
+
+    // If this was the current music, clear the reference
+    if (this.currentMusic?.id === id) {
       this.currentMusic = null;
     }
   }

@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 import express, { Request, Response, NextFunction } from 'express';
 import path from 'path';
 import http from 'http';
-import { WebSocketServer } from 'ws';
+import { WebSocketServer, WebSocket, Data } from 'ws';
 
 dotenv.config();
 
@@ -75,7 +75,7 @@ wss.on('connection', (ws: WebSocket) => {
   // Handle binary messages
   ws.binaryType = 'arraybuffer';
   
-  ws.on('message', (message: WebSocket.Data) => {
+  ws.on('message', (message: Data) => {
     try {
       if (message instanceof Buffer || message instanceof ArrayBuffer) {
         // Handle binary message
